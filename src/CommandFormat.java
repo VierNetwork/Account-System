@@ -7,18 +7,26 @@ public class CommandFormat {
         int indexHold = 0, indexHold2;
 
         indexHold2 = command.indexOf(" ");
-        args.add(command.substring(indexHold, indexHold2));
+        args.add(command.substring(indexHold, (indexHold2 != -1? indexHold2 : command.length() - 1)));
 
-        while (indexHold2 < command.length()) {
+        while (indexHold2 != -1) {
             indexHold2++;
             indexHold = indexHold2;
 
-            if (command.substring(indexHold).startsWith("\"")) {
-                indexHold2 = command.indexOf("\"", indexHold + 1);
-                args.add(command.substring(indexHold, indexHold2));
-            } else {
-                indexHold2 = command.indexOf(" ", indexHold + 1);
-                args.add(command.substring(indexHold, indexHold2));
+            try {
+                if (command.substring(indexHold).startsWith("\"")) {
+                    indexHold2 = command.indexOf("\"", indexHold + 1);
+                    args.add(command.substring(indexHold, indexHold2));
+                } else {
+                    indexHold2 = command.indexOf(" ", indexHold + 1);
+                    if (indexHold2 == -1) {
+                        args.add(command.substring(indexHold));
+                    } else {
+                        args.add(command.substring(indexHold, indexHold2));
+                    }
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                System.err.println("You forgot to close string argument with (\")");
             }
         }
         return args.toArray(new String[0]);
