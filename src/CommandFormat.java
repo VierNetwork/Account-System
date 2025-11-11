@@ -7,16 +7,16 @@ public class CommandFormat {
         int indexHold = 0, indexHold2;
 
         indexHold2 = command.indexOf(" ");
-        args.add(command.substring(indexHold, (indexHold2 != -1? indexHold2 : command.length() - 1)));
+        args.add(command.substring(indexHold, (indexHold2 != -1? indexHold2 : command.length())));
 
+        // indexHold is required to check if the part of the string starts with '\"' or ' ' and then I use indexHold + 1 to take the substring without '\"' or ' '
         while (indexHold2 != -1) {
             indexHold2++;
             indexHold = indexHold2;
 
-            try {
                 if (command.substring(indexHold).startsWith("\"")) {
                     indexHold2 = command.indexOf("\"", indexHold + 1);
-                    args.add(command.substring(indexHold, indexHold2));
+                    args.add(command.substring(indexHold + 1, indexHold2));
                 } else {
                     indexHold2 = command.indexOf(" ", indexHold + 1);
                     if (indexHold2 == -1) {
@@ -25,10 +25,8 @@ public class CommandFormat {
                         args.add(command.substring(indexHold, indexHold2));
                     }
                 }
-            } catch (StringIndexOutOfBoundsException e) {
-                System.err.println("You forgot to close string argument with (\")");
             }
-        }
         return args.toArray(new String[0]);
     }
 }
+

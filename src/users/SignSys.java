@@ -71,7 +71,7 @@ public class SignSys {
         // The same, but there is password instead
         matcher = pattern.matcher(password);
         while (matcher.find()) {
-            System.out.println("Password must contain only latin letters, digits or underscore character.");
+            System.err.println("Password must contain only latin letters, digits or underscore character.");
             password = scanner.nextLine();
             matcher = pattern.matcher(password);
         }
@@ -84,11 +84,6 @@ public class SignSys {
 
     public static Account signIn(String username, String password) throws IncorrectUsernameOrPasswordException, AccountIsBannedException{
         Account account = null;
-
-        System.out.println("Enter username: ");
-        username = scanner.nextLine();
-        System.out.println("Enter password: ");
-        password = scanner.nextLine();
 
         try {
             account = findAcc(username, password);
@@ -103,14 +98,3 @@ public class SignSys {
     }
 }
 
-class IncorrectUsernameOrPasswordException extends Exception {
-    IncorrectUsernameOrPasswordException(String message) {
-        super(message);
-    }
-}
-
-class AccountIsBannedException extends Exception {
-    AccountIsBannedException(String message) {
-        super(message);
-    }
-}
